@@ -18,24 +18,26 @@ namespace phi
 
 		vector<float> avDeviation;					// average deviation between last x and x (x, averageDeviation)
 		vector<short int> connWeight;				// weight of connection (uncompressed via /10000)
-		signed int connWeightAmt;					// general value of iterations that occurred
+		int connWeightAmt;					// general value of iterations that occurred
 
 		float dimSmoothing;
 		float dimHeight;
 		int movingTrueVal;							// correct value that is used for back propagation
 		int movingValWeighted;						// signed amount | value that the node contributed to the end result
 
-		signed int compCordAmt;
+		int compCordAmt;
 		vector<float> xCompCords;
 		vector<float> yCompCords;
 		vector<float> xCordList;
 		vector<float> yCordList;
 
 		// Value Throughput Functions (like sigmoid)
-		void DirivMerge()
+		void diriv_merge()
 		{
 		}
-		int BCConstructor(bool debug = false)
+
+
+		int BC_constructor(bool debug = false)
 		{
 			if (debug) { cout << "\n\nBCConstructor Called:"; }
 			//constraint checker
@@ -92,12 +94,14 @@ namespace phi
 				// relative k2 & h2 (where derivitive == 0)
 				tempkhList.push_back(xCompCords[i + 2]);
 				tempkhList.push_back(yCompCords[i + 2]);
-				addKHCords(tempkhList);
+				add_KH_cords(tempkhList);
 				if (debug) { cout << "\n      KH Last: " << xCompCords[i + 2] << ", " << yCompCords[i + 2]; }
 			}
 			if (debug) { cout << "\n   BCConstructor Finished\n"; }
 		}
-		void pointGrouper(signed int amountOfOutputPoints, const bool debug = false) // MAKE SURE IS DEVISABLE BY THREE, DON'T CALCULATE MORE POINTS THAN PREV IT
+
+
+		void point_grouper (signed int amountOfOutputPoints, const bool debug = false) // MAKE SURE IS DEVISABLE BY THREE, DON'T CALCULATE MORE POINTS THAN PREV IT
 		{
 			if (debug) { cout << "Point Grouper Called"; cout << "\n   number of y cords: " << yCordList.size() << "\n   number of x cords: " << xCordList.size(); }
 			// Segmented into 3 via x cord amt and then averaged (I.E. | 1,1,2 | 5,6,9 | 10,15,100 | ). This is a bad way of going about this.
@@ -151,7 +155,9 @@ namespace phi
 			xCompCords = { xTempCordList };
 			yCompCords = { yTempCordList };
 		}
-		int addOrderedCords(vector<float> xcords, vector<float> ycords, const bool debug = false)	// not most efficient
+
+
+		int add_ordered_cords(vector<float> xcords, vector<float> ycords, const bool debug = false)	// not most efficient
 		{
 			if (debug) {
 				cout << "\n OrderedPairAdder Called: ";
@@ -232,7 +238,9 @@ namespace phi
 			}
 			return 0;
 		}
-		void addKHCords(vector<float> cords, const bool debug = false)
+
+
+		void add_KH_cords(vector<float> cords, const bool debug = false)
 		{
 			// note some weirdness with 2 ++positions/1 --position and differences between -1 and -2 and etc are to make sure that upon adding values the position is at the h before the k after value
 			auto position = khList.begin();
@@ -299,6 +307,9 @@ namespace phi
 				}
 			}
 		}
+
+
+
 	private:
 		bool khFirstPass = true;
 		bool indexTwoGap = true;
